@@ -1,0 +1,14 @@
+D:\Learn\React\react-examples\react-quiz-api-core-211\QuizServices\bin\Debug\netcoreapp2.1\QuizServices.deps.json
+D:\Learn\React\react-examples\react-quiz-api-core-211\QuizServices\bin\Debug\netcoreapp2.1\QuizServices.runtimeconfig.json
+D:\Learn\React\react-examples\react-quiz-api-core-211\QuizServices\bin\Debug\netcoreapp2.1\QuizServices.runtimeconfig.dev.json
+D:\Learn\React\react-examples\react-quiz-api-core-211\QuizServices\bin\Debug\netcoreapp2.1\QuizServices.dll
+D:\Learn\React\react-examples\react-quiz-api-core-211\QuizServices\bin\Debug\netcoreapp2.1\QuizServices.pdb
+D:\Learn\React\react-examples\react-quiz-api-core-211\QuizServices\obj\Debug\netcoreapp2.1\QuizServices.csproj.CoreCompileInputs.cache
+D:\Learn\React\react-examples\react-quiz-api-core-211\QuizServices\obj\Debug\netcoreapp2.1\QuizServices.RazorAssemblyInfo.cache
+D:\Learn\React\react-examples\react-quiz-api-core-211\QuizServices\obj\Debug\netcoreapp2.1\QuizServices.RazorAssemblyInfo.cs
+D:\Learn\React\react-examples\react-quiz-api-core-211\QuizServices\obj\Debug\netcoreapp2.1\QuizServices.AssemblyInfoInputs.cache
+D:\Learn\React\react-examples\react-quiz-api-core-211\QuizServices\obj\Debug\netcoreapp2.1\QuizServices.AssemblyInfo.cs
+D:\Learn\React\react-examples\react-quiz-api-core-211\QuizServices\obj\Debug\netcoreapp2.1\QuizServices.RazorTargetAssemblyInfo.cache
+D:\Learn\React\react-examples\react-quiz-api-core-211\QuizServices\obj\Debug\netcoreapp2.1\QuizServices.dll
+D:\Learn\React\react-examples\react-quiz-api-core-211\QuizServices\obj\Debug\netcoreapp2.1\QuizServices.pdb
+D:\Learn\React\react-examples\react-quiz-api-core-211\QuizServices\obj\Debug\netcoreapp2.1\QuizServices.csprojAssemblyReference.cache
