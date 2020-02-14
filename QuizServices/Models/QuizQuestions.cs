@@ -10,6 +10,6 @@ namespace QuizServices.Models
         public long? CorrectAnswerOptionId { get; set; }
         public short? QuestionTypeId { get; set; }
         public int? ClassSubjectId { get; set; }
-        public int? QuizMasterId { get; set; }
+        public int? AccountId { get; set; }
     }
 }

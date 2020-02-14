@@ -24,24 +24,33 @@ namespace QuizServices.Controllers
             _context = context;
         }
 
+        //GetAvailaleClassAndSubjects
+
         // GET: api/Questions
         [HttpGet]
         public IActionResult Get()
         {
-            return Get(17,2);
-            //return _context.QuizQuestions.ToList();
-            //return new string[] { "Questions value1", "Questions value2" };
-        }     
 
-        [HttpGet("{classSubjectid}/{quizId}", Name = "GetQuestionsByClassSubjectAndQuizId")]
-        public IActionResult Get(int classSubjectid, int quizId)
+            //return Get(1, 1);
+            return Ok(_context.QuizQuestions.ToList());
+            //return new string[] { "Questions value1", "Questions value2" };
+        }
+
+        [HttpGet("available_class_subjects/{accountId}", Name = "GetAvailableClassAndSubject")]
+        public IActionResult Get(int accountId)
+        {
+            return Ok("ok" + accountId.ToString());
+        }
+
+        [HttpGet("{classSubjectid}/{accountId}", Name = "GetQuestions")]
+        public IActionResult Get(int classSubjectid, int accountId)
         {
             try
             {
-                QuizQuestionsViewModel qvm =  GetQuizQuestionMasterOutput(classSubjectid, quizId);
+                QuizQuestionsViewModel qvm =  GetQuizQuestionMasterOutput(classSubjectid, accountId);
 
                 if (qvm == null)                    
-                    return BadRequest(string.Format(@"[No Questions for classSubjectid={0} and quizId={1} ]", classSubjectid, quizId));
+                    return BadRequest(string.Format(@"[No Questions for classSubjectid={0} and quizId={1} ]", classSubjectid, accountId));
                 else
                     return Ok(qvm);
 
@@ -53,39 +62,81 @@ namespace QuizServices.Controllers
             
         }
 
-
-
-        private QuizQuestionsViewModel GetQuizQuestionMasterOutput(int classSubjectId, int quizId)
+        [HttpPost]
+        [Route("[action]")]
+        public IActionResult add([FromBody] Question question)
         {
-            var QuizMaster = _context
-                                    .QuizMaster
-                                    .FromSql($"GetQuizMasterByID {quizId}")
+            if (question == null || question.options == null || question.questionType == null)
+            {
+                return BadRequest(ReturnResponse.GetFailureStatus("Bad Request"));
+            }
+
+            QuizQuestions ques = new QuizQuestions();
+            ques.Description = question.name;
+            ques.AccountId = question.accountId;
+            ques.ClassSubjectId =  question.classSubjectId;
+
+            _context.QuizQuestions.Add(ques);
+            _context.SaveChanges();
+
+            int newQuestionId = ques.Id;
+            long correctAnswerId = 0;
+            foreach (Option o in question.options)
+            {
+                QuizQuestionsOptions opt = new QuizQuestionsOptions();
+                opt.Description = o.name;
+                opt.QuestionId = newQuestionId;
+
+                _context.QuizQuestionsOptions.Add(opt);
+                _context.SaveChanges();
+
+                if (o.isAnswer)
+                {
+                    correctAnswerId = opt.Id;
+                }
+            }
+            
+
+            ques.CorrectAnswerOptionId = correctAnswerId;
+
+            _context.QuizQuestions.Update(ques);
+            _context.SaveChanges();
+
+            return Ok(ReturnResponse.GetSuccessStatus("Successfully Inserted: new id is: " + newQuestionId.ToString()));
+        }
+
+        private QuizQuestionsViewModel GetQuizQuestionMasterOutput(int classSubjectId, int accountId)
+        {
+            var QuizClassSubject = _context
+                                    .ClassSubject
+                                    .FromSql($"GetQuizClassSubjectByID {classSubjectId}")
                                     .ToList();
 
-            if (QuizMaster.Count.Equals(0)) return null;
+            if (QuizClassSubject.Count.Equals(0)) return null;
 
             QuizQuestionsViewModel qvm = new QuizQuestionsViewModel
             {
-                id = QuizMaster[0].Id,
-                name = QuizMaster[0].Name,
-                description = QuizMaster[0].Description,
-                questions = GetAllQuestions(classSubjectId, quizId)
+                id = QuizClassSubject[0].ClassSubjectID,
+                name = QuizClassSubject[0].SubjectName,
+                description = QuizClassSubject[0].SubjectDesc,
+                classname = QuizClassSubject[0].ClassDesc,
+                questions = GetAllQuestions(classSubjectId, accountId)
             };
             return qvm;
         }
 
 
-        private List<Question> GetAllQuestions(int classSubjectId, int quizId)
+        private List<Question> GetAllQuestions(int classSubjectId, int accountId)
         {
 
             var QuestionList = _context
                                     .QuizQuestions
-                                    .FromSql($"GetQuestions {classSubjectId}, {quizId}")
+                                    .FromSql($"GetQuestions {classSubjectId}, {accountId}")
                                     .ToList();
 
             var OptionList = _context
                                     .QuizQuestionsOptions
-                                    .FromSql($"GetQuestions {classSubjectId}, {quizId},'Options'")
+                                    .FromSql($"GetQuestions {classSubjectId}, {accountId},'Options'")
                                     .ToList();
 
 
@@ -128,7 +179,6 @@ namespace QuizServices.Controllers
 
             return oList;
         }
-
 
 
         private QuestionType GetQuestionTypes(int questionTypeId)

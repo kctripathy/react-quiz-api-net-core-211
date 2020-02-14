@@ -1,0 +1,240 @@
+{
+	"info": {
+		"_postman_id": "1d3250fc-09d2-4f51-b129-e254ca64adb7",
+		"name": "Learning",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Quiz",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"AccountId\": 1,\n\t\"Fullname\": \"Fullname Admin1\",\n\t\"UserName\":\"Admin1\",\n\t\"UserEmail\": \"admin1@gmail.com\",\n\t\"UserPassword\": \"pass123\",\n\t\"AccessLevel\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5050/api/QuizUsers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5050",
+							"path": [
+								"api",
+								"QuizUsers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"AccountId\": 1,\n\t\"UserName\":\"Admin1\",\n\t\"UserPassword\": \"pass123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5050/api/QuizUsers/login/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5050",
+							"path": [
+								"api",
+								"QuizUsers",
+								"login",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Question-Add",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 17,\r\n  \"questionTypeId\": 1, \r\n  \"classSubjectId\": 17,\r\n  \"accountId\": 1,\r\n  \"name\": \"This is the name of the question-17\",\r\n  \"options\":[ {\r\n  \t\"id\": 0,\r\n  \t\"questionId\": 0,\r\n  \t\"name\": \"option-1\",\r\n  \t\"isAnswer\": true\r\n  },\r\n  {\r\n  \t\"id\": 0,\r\n  \t\"questionId\": 0,\r\n  \t\"name\": \"option-2\",\r\n  \t\"isAnswer\": false\r\n  },\r\n  {\r\n  \t\"id\": 0,\r\n  \t\"questionId\": 0,\r\n  \t\"name\": \"option-3\",\r\n  \t\"isAnswer\": false\r\n  },\r\n  {\r\n  \t\"id\": 0,\r\n  \t\"questionId\": 0,\r\n  \t\"name\": \"option-4\",\r\n  \t\"isAnswer\": false\r\n  }\r\n  ],\r\n  \"questionType\":{\r\n  \t\"id\": 0,\r\n  \t\"name\": \"Multiple Type\"\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5050/api/Questions/add",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5050",
+							"path": [
+								"api",
+								"Questions",
+								"add"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Login/InsertEmployee",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost/LoginApp/Api/login/InsertEmployee",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"LoginApp",
+						"Api",
+						"login",
+						"InsertEmployee"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Student/AddOrUpdate",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"Id\": 1,\r\n  \"Name\": \"sample string 1\",\r\n  \"Rollno\": \"sample string 2\",\r\n  \"Class\": \"sample string 3\",\r\n  \"Address\": \"sample string 4\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost/LoginApp/Api/Student/AddOrUpdate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"LoginApp",
+						"Api",
+						"Student",
+						"AddOrUpdate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Student/List",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/LoginApp/Api/Student/List",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"LoginApp",
+						"Api",
+						"Student",
+						"List"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Student/Delete?id=1",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost/LoginApp/Api/Student/Delete?id=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"LoginApp",
+						"Api",
+						"Student",
+						"Delete"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -31,5 +31,15 @@ namespace QuizServices.ViewModels
         {
             get; set;
         }
+
+        public int? classSubjectId
+        {
+            get; set;
+        }
+
+        public int? accountId
+        {
+            get; set;
+        }
     }
 }

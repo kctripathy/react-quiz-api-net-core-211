@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using QuizServices.ViewModels;
 
 namespace QuizServices.Models
 {
@@ -17,7 +18,7 @@ namespace QuizServices.Models
 
         public virtual DbSet<QuizAccounts> QuizAccounts { get; set; }
         public virtual DbSet<QuizClasses> QuizClasses { get; set; }
-        public virtual DbSet<QuizMaster> QuizMaster { get; set; }
+        //public virtual DbSet<QuizMaster> QuizMaster { get; set; }
         public virtual DbSet<QuizQuestions> QuizQuestions { get; set; }
         public virtual DbSet<QuizQuestionsOptions> QuizQuestionsOptions { get; set; }
         public virtual DbSet<QuizQuestionsTypes> QuizQuestionsTypes { get; set; }
@@ -25,6 +26,9 @@ namespace QuizServices.Models
         public virtual DbSet<QuizResultMaster> QuizResultMaster { get; set; }
         public virtual DbSet<QuizSubjects> QuizSubjects { get; set; }
         public virtual DbSet<QuizUsers> QuizUsers { get; set; }
+
+        public virtual DbSet<AvailaleClassAndSubjects> QuestionAvailaleClassAndSubjects { get; set; }
+        public virtual DbSet<ClassSubject> ClassSubject { get; set; }
 
         // Unable to generate entity type for table 'dbo.Quiz_Classes_Subject'. Please see the warning messages.
 
@@ -81,20 +85,20 @@ namespace QuizServices.Models
                 entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
             });
 
-            modelBuilder.Entity<QuizMaster>(entity =>
-            {
-                entity.ToTable("Quiz_Master");
+            //modelBuilder.Entity<QuizMaster>(entity =>
+            //{
+            //    entity.ToTable("Quiz_Master");
 
-                entity.Property(e => e.Id).HasColumnName("ID");
+            //    entity.Property(e => e.Id).HasColumnName("ID");
 
-                entity.Property(e => e.Description).IsUnicode(false);
+            //    entity.Property(e => e.Description).IsUnicode(false);
 
-                entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
+            //    entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
 
-                entity.Property(e => e.Name)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-            });
+            //    entity.Property(e => e.Name)
+            //        .HasMaxLength(100)
+            //        .IsUnicode(false);
+            //});
 
             modelBuilder.Entity<QuizQuestions>(entity =>
             {
@@ -114,7 +118,7 @@ namespace QuizServices.Models
                     .HasColumnName("QuestionTypeID")
                     .HasDefaultValueSql("((1))");
 
-                entity.Property(e => e.QuizMasterId).HasColumnName("QuizMasterID");
+                entity.Property(e => e.AccountId).HasColumnName("AccountId");
             });
 
             modelBuilder.Entity<QuizQuestionsOptions>(entity =>

@@ -20,6 +20,10 @@ namespace QuizServices.ViewModels
         {
             get; set;
         }
+        public string classname
+        {
+            get; set;
+        }
 
         public List<Question> questions
         {
