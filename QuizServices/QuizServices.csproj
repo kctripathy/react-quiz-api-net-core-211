@@ -17,6 +17,7 @@
     <Compile Remove="Controllers\QuizUsersController.cs" />
     <Compile Remove="Controllers\ValuesController.cs" />
     <Compile Remove="Respond.cs" />
+    <Compile Remove="ViewModels\QuizContext.cs" />
     <Compile Remove="ViewModels\QuizQuestionOutput.cs" />
   </ItemGroup>
 

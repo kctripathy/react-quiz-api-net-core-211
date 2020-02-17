@@ -1,18 +1,16 @@
-﻿using QuizServices.Data;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace QuizServices.Models
 {
-    public partial class QuizUsers: IEntity
+    public partial class QuizUsers
     {
         public int Id { get; set; }
-        public int? AddressId { get; set; }
         public int AccountId { get; set; }
+        public int? AddressId { get; set; }
         public string Fullname { get; set; }
         public string UserName { get; set; }
         public string UserGender { get; set; }
-
         public string UserEmail { get; set; }
         public string UserPassword { get; set; }
         public string UserPhone { get; set; }
@@ -25,5 +23,7 @@ namespace QuizServices.Models
         public DateTime? UpdatedDate { get; set; }
         public string Salt { get; set; }
         public string AccessToken { get; set; }
+
+        public QuizAccounts Account { get; set; }
     }
 }

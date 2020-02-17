@@ -5,7 +5,14 @@ namespace QuizServices.Models
 {
     public partial class QuizQuestionsTypes
     {
-        public int Id { get; set; }
+        public QuizQuestionsTypes()
+        {
+            QuizQuestions = new HashSet<QuizQuestions>();
+        }
+
+        public short Id { get; set; }
         public string Description { get; set; }
+
+        public ICollection<QuizQuestions> QuizQuestions { get; set; }
     }
 }

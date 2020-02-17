@@ -15,6 +15,8 @@ Install-Package Microsoft.EntityFrameworkCore.SqlServer -Version 2.1.1
 
 Scaffold-DbContext “Server=TSLC0750\SQLEXPRESS;Database=Quiz;Integrated Security=True;user id=sa;password=maa@1234;” Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
 
+Scaffold-DbContext “Server=TSLC0750\SQLEXPRESS;Database=Quiz;Integrated Security=True;user id=sa;password=maa@1234;” Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -Tables Quiz_Countries
+
 
 
 
