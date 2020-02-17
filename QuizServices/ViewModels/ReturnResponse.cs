@@ -32,6 +32,54 @@ namespace QuizServices.ViewModels
 
             return r;
         }
+
+
+        public static ReturnResponse Get(int returnCode)
+        {
+            ReturnResponse returnValue = new ReturnResponse();            
+            switch (returnCode)
+            {
+                case ReturnConstant.FAILURE:
+                    returnValue.Status = new ReturnStatus(ReturnConstant.FAILURE.ToString(), ReturnConstant.FAILURE_MESSAGE);
+                    break;
+                case ReturnConstant.INVALID_USER:
+                    returnValue.Status  = new ReturnStatus(ReturnConstant.INVALID_USER.ToString(),ReturnConstant.INVALID_USER_MESSAGE);
+                    break;
+                case ReturnConstant.INVALID_PASSWORD:
+                    returnValue.Status = new ReturnStatus(ReturnConstant.INVALID_PASSWORD.ToString(),ReturnConstant.INVALID_PASSWORD_MESSAGE);
+                    break;
+                case ReturnConstant.USER_NOT_ALLOWED_TO_LOGIN:
+                    returnValue.Status = new ReturnStatus(ReturnConstant.USER_NOT_ALLOWED_TO_LOGIN.ToString(),ReturnConstant.USER_NOT_ALLOWED_TO_LOGIN_MESSAGE);
+                    break;
+                default:
+                    returnValue.Status = new ReturnStatus(ReturnConstant.INVALID_OPERATION.ToString(),ReturnConstant.INVALID_OPERATION_MESSAGE);
+                    break;
+            }
+            returnValue.Result = "[]";
+            return returnValue;
+        }
+
+
+
+        public static ReturnResponse Get(User user)
+        {
+            ReturnResponse returnValue = new ReturnResponse();
+            ReturnStatus returnStatus = new ReturnStatus(ReturnConstant.SUCCESS.ToString(), ReturnConstant.SUCCESS_MESSAGE);
+            returnValue.Result = user;
+            returnValue.Status = returnStatus;
+            return returnValue;
+        }
+
+        public static ReturnResponse Get(int returnCode, Object obj)
+        {
+            ReturnResponse returnValue = new ReturnResponse();
+            ReturnStatus returnStatus = new ReturnStatus(returnCode.ToString(), (returnCode > 0 ? ReturnConstant.SUCCESS_MESSAGE : ReturnConstant.FAILURE_MESSAGE));
+            returnValue.Status = returnStatus;
+            returnValue.Result = obj;
+            return returnValue;
+        }
+
+       
     }
 
     public class ReturnStatus
@@ -45,7 +93,31 @@ namespace QuizServices.ViewModels
             this.Message = messsage;
 
         }
+
+        public ReturnStatus()
+        {
+        }
     }
 
-   
+   public static class ReturnConstant
+    {
+
+        public const int SUCCESS = 1;
+        public const string SUCCESS_MESSAGE = "SUCCESS";
+
+        public const int FAILURE = 0;
+        public const string FAILURE_MESSAGE = "FAILURE";
+
+        public const int INVALID_USER = -10;
+        public const string INVALID_USER_MESSAGE = "USER NOT FOUND";
+
+        public const int INVALID_PASSWORD = -11;
+        public const string INVALID_PASSWORD_MESSAGE= "INVALID PASSWORD";
+
+        public const int USER_NOT_ALLOWED_TO_LOGIN = -12;
+        public const string USER_NOT_ALLOWED_TO_LOGIN_MESSAGE = "USER NOT ALLOWED TO LOGIN";
+
+        public const int INVALID_OPERATION= -100;
+        public const string INVALID_OPERATION_MESSAGE= "INVALID OPERATION";
+    }
 }

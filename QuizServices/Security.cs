@@ -39,6 +39,11 @@ namespace QuizServices
             return Convert.ToBase64String(byteHash);
         }
 
+        internal static string GetAccessToken()
+        {
+            return Guid.NewGuid().ToString().Replace("-", "");
+        }
+
         //Public Function GenerateHash(ByVal SourceText As String, SaltText As String) As String
         //    Dim tempsalt As String = Convert.ToString(SaltText).Trim()
         //    Return GenerateHash(String.Concat(SourceText, tempsalt))

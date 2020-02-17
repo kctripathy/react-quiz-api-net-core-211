@@ -30,6 +30,8 @@ namespace QuizServices.Models
         public virtual DbSet<AvailaleClassAndSubjects> QuestionAvailaleClassAndSubjects { get; set; }
         public virtual DbSet<ClassSubject> ClassSubject { get; set; }
 
+        public virtual DbSet<Question> Question { get; set; }
+
         // Unable to generate entity type for table 'dbo.Quiz_Classes_Subject'. Please see the warning messages.
 
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -199,7 +201,7 @@ namespace QuizServices.Models
 
             modelBuilder.Entity<QuizUsers>(entity =>
             {
-                entity.HasKey(e => e.UserId);
+                entity.HasKey(e => e.Id);
 
                 entity.ToTable("Quiz_Users");
 

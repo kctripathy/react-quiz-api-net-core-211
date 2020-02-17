@@ -5,7 +5,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Services\**" />
+    <Content Remove="Services\**" />
+    <EmbeddedResource Remove="Services\**" />
+    <None Remove="Services\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Controllers\QuizController.cs" />
+    <Compile Remove="Controllers\QuizQuestionsController.cs" />
+    <Compile Remove="Controllers\QuizUsersController.cs" />
     <Compile Remove="Controllers\ValuesController.cs" />
+    <Compile Remove="Respond.cs" />
     <Compile Remove="ViewModels\QuizQuestionOutput.cs" />
   </ItemGroup>
 

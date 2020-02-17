@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using QuizServices.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+
 namespace QuizServices.Controllers
 {
     [Route("api/[controller]")]

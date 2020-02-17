@@ -1,16 +1,19 @@
-﻿using System;
+﻿using QuizServices.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace QuizServices.ViewModels
 {
-    public class Question
+    public class Question: IEntity
     {
-        public int id
-        {
-            get; set;
-        }
+        public int Id { get; set;} //Just for IEntity
+
+        //public int id
+        //{
+        //    get; set;
+        //}
 
         public string name
         {

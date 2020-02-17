@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using QuizServices.Data.EFCore;
 using QuizServices.Models;
 
 namespace QuizServices
@@ -36,7 +37,12 @@ namespace QuizServices
                 optionsBuilder.UseInternalServiceProvider(serviceProvider);
             });
 
-            
+            //Repository Pattern classes add
+            services.AddScoped<EfCoreUserRepository>();
+            services.AddScoped<EfCoreSubjectsRepository>();
+            services.AddScoped<EfCoreClassesRepository>();
+            services.AddScoped<EfCoreQuestionsRepository>();
+
             //services.AddCors();
             services.AddCors(options =>
             {
