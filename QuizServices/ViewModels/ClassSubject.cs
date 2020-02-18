@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QuizServices.Data;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -6,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace QuizServices.ViewModels
 {
-    public class ClassSubject: 
+    public class ClassSubject: IEntity
     {
-        public int Id { get; set }
+        public int Id { get; set; }
+
         public int ClassSubjectID { get; set; }
 
         public int ClassID { get; set; }
