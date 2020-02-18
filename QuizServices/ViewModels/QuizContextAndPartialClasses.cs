@@ -38,4 +38,9 @@ namespace QuizServices.Models
     public partial class QuizUsers : IEntity
     {
     }
+
+    public partial class QuizClassesSubject: IEntity
+    {
+
+    }
 }

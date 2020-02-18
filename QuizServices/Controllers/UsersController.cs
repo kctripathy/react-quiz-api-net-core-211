@@ -12,11 +12,11 @@ namespace QuizServices.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : QuizContextBaseController<QuizUsers, EfCoreUserRepository>
+    public class UsersController : QuizContextBaseController<QuizUsers, EfCoreUsersRepository>
     {
-        EfCoreUserRepository _repository;
+        EfCoreUsersRepository _repository;
 
-        public UsersController(EfCoreUserRepository repository) : base(repository)
+        public UsersController(EfCoreUsersRepository repository) : base(repository)
         {
             _repository = repository;
         }

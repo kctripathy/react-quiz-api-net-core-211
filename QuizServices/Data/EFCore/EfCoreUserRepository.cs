@@ -5,10 +5,10 @@ using System.Linq;
 
 namespace QuizServices.Data.EFCore
 {
-    public class EfCoreUserRepository: EfCoreRepository<QuizUsers, QuizContext>
+    public class EfCoreUsersRepository: EfCoreRepository<QuizUsers, QuizContext>
     {
         public readonly QuizContext _context;
-        public EfCoreUserRepository(QuizContext context): base(context)
+        public EfCoreUsersRepository(QuizContext context): base(context)
         {
             _context = context;
         }
@@ -88,7 +88,8 @@ namespace QuizServices.Data.EFCore
                     //Return user informtion
                     returnValue = user.Id;
                     usr = new User
-                    {
+                    {     
+                         Id = user.Id,
                         AccountId = user.AccountId,
                         Fullname = user.Fullname,
                         UserEmail = user.UserEmail,

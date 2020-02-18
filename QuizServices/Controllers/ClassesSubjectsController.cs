@@ -6,70 +6,53 @@ using Microsoft.AspNetCore.Http;
 using QuizServices.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using QuizServices.Data.EFCore;
+using QuizServices.ViewModels;
 
 namespace QuizServices.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ClassesSubjectsController : ControllerBase
+    public class ClassesSubjectsController : QuizContextBaseController<QuizClassesSubject, EfCoreClassesSubjectsRepository>
     {
+        private readonly EfCoreClassesSubjectsRepository _repository;
 
-
-        private readonly QuizContext _context;
-
-        public ClassesSubjectsController(QuizContext context)
+        public ClassesSubjectsController(EfCoreClassesSubjectsRepository repository) : base(repository)
         {
-            _context = context;
+            this._repository = repository;
         }
 
-
-        // GET: api/ClassesSubjects
+        /// <summary>
+        /// Get all the classes and subjects for which the question is availble for an account
+        /// </summary>
+        /// <param name="accountId">accountId</param>
+        /// <returns>List of classes and subjects for which some question is available</returns>
         [HttpGet]
-        public IActionResult Get()
+        [Route("[action]/{accountId}")]
+        public IActionResult QuestionsAvailable(int accountId)
         {
-            var availableClassesSubjects = _context
-                                            .QuestionAvailaleClassAndSubjects
-                                           .FromSql("GetAvailaleClassAndSubjects")
-                                           .ToList();
-
-            return Ok(availableClassesSubjects);
+            List<QuestionAvailaleClassAndSubject> list = _repository.GetAvailableQuestionClassesSubjectsByAccountId(accountId);
+            if (list != null && list.Count > 0)
+                return Ok(ReturnResponse.GetSuccessStatus(list));
+            else
+                return NotFound(ReturnResponse.Get(ReturnConstant.CLASS_SUBJECT_NOT_FOUND_QUESTION_AVAILABLE));
         }
 
-        // GET: api/ClassesSubjects/all
-        [HttpGet("all", Name = "AllClassesSubjects")]
-        public IActionResult GetAll()
+        /// <summary>
+        /// Get all the classes and subjects for an account id
+        /// </summary>
+        /// <param name="accountId">accountId</param>
+        /// <returns>All the classes and subjects for the account</returns>
+        [HttpGet]
+        [Route("all/{accountId}")]
+        public IActionResult GetAllClassesSubjectsByAccountId(int accountId)
         {
-            var availableClassesSubjects = _context
-                                            .QuestionAvailaleClassAndSubjects
-                                           .FromSql($"GetAllClassesSubjects")
-                                           .ToList();
-
-            return Ok(availableClassesSubjects);
+            List<QuestionAvailaleClassAndSubject> list = _repository.GetAllClassesSubjectsByAccountId(accountId);
+            if (list != null && list.Count > 0)
+                return Ok(ReturnResponse.GetSuccessStatus(list));
+            else
+                return NotFound(ReturnResponse.Get(ReturnConstant.CLASS_SUBJECT_ALL_NOT_FOUND));
         }
 
-        // GET: api/ClassesSubjects/1
-        [HttpGet("{classId}", Name = "ClassesSubjectsByClassId")]
-        public IActionResult Get(int classId)
-        {
-            var availableClassesSubjects = _context
-                                            .QuestionAvailaleClassAndSubjects
-                                           .FromSql($"GetAvailaleClassAndSubjects {classId}")
-                                           .ToList();
-
-            return Ok(availableClassesSubjects);
-        }
-
-
-        // GET: api/ClassesSubjects/1
-        [HttpGet("{classId}/{accountId}", Name = "ClassesSubjectsByClassAndAccountId")]
-        public IActionResult Get(int classId, int accountId)
-        {
-            var availableClassesSubjects = _context
-                                            .QuestionAvailaleClassAndSubjects
-                                           .FromSql($"GetAvailaleClassAndSubjects {classId}, {accountId}")
-                                           .ToList();
-
-            return Ok(availableClassesSubjects);
-        }
     }
 }

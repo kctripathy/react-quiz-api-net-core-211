@@ -8,6 +8,7 @@ namespace QuizServices.ViewModels
 
     public partial class User
     {
+        public int Id { get; set; }
         public int AccountId { get; set; }
         public string Fullname { get; set; }
         public string UserName { get; set; }

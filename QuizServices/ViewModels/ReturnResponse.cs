@@ -51,6 +51,15 @@ namespace QuizServices.ViewModels
                 case ReturnConstant.USER_NOT_ALLOWED_TO_LOGIN:
                     returnValue.Status = new ReturnStatus(ReturnConstant.USER_NOT_ALLOWED_TO_LOGIN.ToString(),ReturnConstant.USER_NOT_ALLOWED_TO_LOGIN_MESSAGE);
                     break;
+
+                //CLASSES AND SUBJECTS
+                case ReturnConstant.CLASS_SUBJECT_NOT_FOUND_QUESTION_AVAILABLE:
+                    returnValue.Status = new ReturnStatus(ReturnConstant.CLASS_SUBJECT_NOT_FOUND_QUESTION_AVAILABLE.ToString(), ReturnConstant.CLASS_SUBJECT_NOT_FOUND_QUESTION_AVAILABLE_MESSAGE);
+                    break;
+                case ReturnConstant.CLASS_SUBJECT_ALL_NOT_FOUND:
+                    returnValue.Status = new ReturnStatus(ReturnConstant.CLASS_SUBJECT_ALL_NOT_FOUND.ToString(), ReturnConstant.CLASS_SUBJECT_ALL_NOT_FOUND_MESSAGE);
+                    break;
+
                 default:
                     returnValue.Status = new ReturnStatus(ReturnConstant.INVALID_OPERATION.ToString(),ReturnConstant.INVALID_OPERATION_MESSAGE);
                     break;
@@ -119,5 +128,12 @@ namespace QuizServices.ViewModels
 
         public const int INVALID_OPERATION= -100;
         public const string INVALID_OPERATION_MESSAGE= "INVALID OPERATION";
+
+        public const int CLASS_SUBJECT_NOT_FOUND_QUESTION_AVAILABLE = -200;
+        public const string CLASS_SUBJECT_NOT_FOUND_QUESTION_AVAILABLE_MESSAGE = "Classes and subjects not found for the account for which any question available";
+
+        public const int CLASS_SUBJECT_ALL_NOT_FOUND = -210;
+        public const string CLASS_SUBJECT_ALL_NOT_FOUND_MESSAGE = "Classes and subjects not found for the given account";
+
     }
 }
