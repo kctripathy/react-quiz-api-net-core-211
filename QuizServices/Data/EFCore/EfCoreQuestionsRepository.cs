@@ -8,23 +8,22 @@ using QuizServices.ViewModels;
 
 namespace QuizServices.Data.EFCore
 {
-    public class EfCoreQuestionsRepository: EfCoreRepository<QuizQuestions, QuizContext >
+    public class EfCoreQuestionsRepository : EfCoreRepository<QuizQuestions, QuizContext>
     {
         private readonly QuizContext _context;
-        public EfCoreQuestionsRepository(QuizContext context): base(context)
+        public EfCoreQuestionsRepository(QuizContext context) : base(context)
         {
             _context = context;
         }
 
         #region Get All the Questions Along With Options that will be rendered in the UI (ReactJS)
-     
         /// <summary>
         /// This function will return all the questions will be rendered in the front end
         /// </summary>
         /// <param name="classSubjectId">class & subject id</param>
         /// <param name="accountId">account owner for whom the questions will be return</param>
         /// <returns></returns>
-        public QuizQuestionsViewModel GetQuizQuestionsByClassSubjctAndAccountId(int classSubjectId, int accountId)
+        public QuizQuestionsViewModel GetQuizQuestionsByClassSubjctAndAccountId(int classSubjectId, int accountId, int totalQuestionToFetch = 20)
         {
             var QuizClassSubject = _context
                                     .ClassSubject
@@ -39,36 +38,46 @@ namespace QuizServices.Data.EFCore
                 name = QuizClassSubject[0].SubjectName,
                 description = QuizClassSubject[0].SubjectDesc,
                 classname = QuizClassSubject[0].ClassDesc,
-                questions = GetAllQuestions(classSubjectId, accountId)
+                questions = GetAllQuestions(classSubjectId, accountId, totalQuestionToFetch)
             };
+            qvm.totalQuestions = qvm.questions.Count;            
             return qvm;
         }
 
-
-        private List<Question> GetAllQuestions(int classSubjectId, int accountId)
+        /// <summary>
+        /// To get all the questions for a class and subject
+        /// </summary>
+        /// <param name="classSubjectId">classSubjectId</param>
+        /// <param name="accountId">accountId</param>
+        /// <param name="totalQuestionToFetch">totalQuestionToFetch</param>
+        /// <returns></returns>
+        private List<Question> GetAllQuestions(int classSubjectId, int accountId, int totalQuestionToFetch = 20)
         {
 
-            var QuestionList = _context
-                                    .QuizQuestions
-                                    .FromSql($"GetQuestions {classSubjectId}, {accountId}")
-                                    .ToList();
+            var quizQuestionList = _context.QuizQuestions
+                                            .Where(q => q.AccountId == accountId && q.ClassSubjectId == classSubjectId)
+                                            .OrderBy(a => Guid.NewGuid())
+                                            .ToList();
 
-            var OptionList = _context
-                                    .QuizQuestionsOptions
-                                    .FromSql($"GetQuestions {classSubjectId}, {accountId},'Options'")
-                                    .ToList();
-
+            if (totalQuestionToFetch > quizQuestionList.Count)
+            {
+                totalQuestionToFetch = quizQuestionList.Count;
+            }
 
             List<Question> questionlist = new List<Question>();
-            for (int ctr = 1; ctr <= QuestionList.Count; ctr++)
+            for (int ctr = 1; ctr <= totalQuestionToFetch; ctr++)
             {
+
                 Question q = new Question
                 {
-                    Id = QuestionList[ctr - 1].Id,
-                    name = QuestionList[ctr - 1].Description, //string.Format("Q#{0} - {1}", ctr, QuestionList[ctr - 1].Description),
-                    options = GetAllOptions(QuestionList[ctr - 1].Id, OptionList, QuestionList[ctr - 1].CorrectAnswerOptionId)
+
+                    Id = quizQuestionList[ctr - 1].Id,
+                    name = quizQuestionList[ctr - 1].Description, //string.Format("Q#{0} - {1}", ctr, QuestionList[ctr - 1].Description),                                       
+                    options = GetAllOptions(quizQuestionList[ctr - 1].Id, quizQuestionList[ctr - 1].CorrectAnswerOptionId)
                 };
                 q.questionType = GetQuestionTypes(q.questionTypeId);
+                q.classSubjectId = classSubjectId;
+                q.accountId = accountId;
                 questionlist.Add(q);
             }
 
@@ -76,11 +85,19 @@ namespace QuizServices.Data.EFCore
             return questionlist;
         }
 
-
-        private List<Option> GetAllOptions(int questionId, List<QuizQuestionsOptions> optionList, long? correctAnswerOptionId)
+        /// <summary>
+        /// To determine what are the options of a question
+        /// </summary>
+        /// <param name="questionId">The question for whom the option needed</param>
+        /// <param name="correctAnswerOptionId">Which one is the correct answer id</param>
+        /// <returns>All options of the question</returns>
+        private List<Option> GetAllOptions(int questionId, long? correctAnswerOptionId)
         {
 
-            List<QuizQuestionsOptions> questionOptions = optionList.FindAll(a => a.QuestionId == questionId);
+            List<QuizQuestionsOptions> questionOptions = _context
+                                                            .QuizQuestionsOptions
+                                                            .Where(a => a.QuestionId == questionId)
+                                                            .ToList();
 
             // Adding options for the question
             List<Option> oList = new List<Option>();
@@ -99,7 +116,11 @@ namespace QuizServices.Data.EFCore
             return oList;
         }
 
-
+        /// <summary>
+        /// To get the type of the question
+        /// </summary>
+        /// <param name="questionTypeId"></param>
+        /// <returns></returns>
         private QuestionType GetQuestionTypes(int questionTypeId)
         {
             QuestionType qt = new QuestionType();
@@ -108,9 +129,15 @@ namespace QuizServices.Data.EFCore
             qt.isActive = true;
             return qt;
         }
-
         #endregion
 
+
+        #region Question CRUD Operation
+        /// <summary>
+        /// To add q question along with the options
+        /// </summary>
+        /// <param name="question">The question to add</param>
+        /// <returns>The new id of the question</returns>
         public int InsertQuestion(Question question)
         {
             int returnValue = 0;
@@ -147,7 +174,7 @@ namespace QuizServices.Data.EFCore
                 _context.QuizQuestions.Update(ques);
                 _context.SaveChanges();
 
-                returnValue = newQuestionId; 
+                returnValue = newQuestionId;
             }
             catch
             {
@@ -155,11 +182,16 @@ namespace QuizServices.Data.EFCore
             }
             finally
             {
-                
+
             }
             return returnValue;
         }
 
+        /// <summary>
+        /// Update a question
+        /// </summary>
+        /// <param name="question">The question to update</param>
+        /// <returns>The id of the updated question</returns>
         public int UpdateQuestion(Question question)
         {
             int returnValue = 0;
@@ -210,6 +242,11 @@ namespace QuizServices.Data.EFCore
             return returnValue;
         }
 
+        /// <summary>
+        /// Delete a question
+        /// </summary>
+        /// <param name="id">which question id to delete</param>
+        /// <returns>0 if false or -1 if any error or the id of the question deleted</returns>
         public int DeleteQuestion(int id)
         {
             int returnValue = 0;
@@ -219,11 +256,12 @@ namespace QuizServices.Data.EFCore
                 if (quizQuestion == null)
                     returnValue = 0;
             }
-            catch 
+            catch
             {
                 returnValue = -1;
             }
             return returnValue;
         }
+        #endregion
     }
 }

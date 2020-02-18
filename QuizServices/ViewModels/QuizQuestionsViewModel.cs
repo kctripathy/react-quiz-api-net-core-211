@@ -25,6 +25,11 @@ namespace QuizServices.ViewModels
             get; set;
         }
 
+        public int totalQuestions
+        {
+            get; set;
+        }
+
         public List<Question> questions
         {
             get; set;

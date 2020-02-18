@@ -11,6 +11,6 @@ namespace QuizServices.Controllers
         public ClassesController (EfCoreClassesRepository repository): base(repository)
         {
 
-        }
+        }        
     }
 }

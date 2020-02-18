@@ -10,7 +10,7 @@ namespace QuizServices.Models
 {
     public partial class QuizContext
     {
-        public virtual DbSet<AvailaleClassAndSubjects> QuestionAvailaleClassAndSubjects { get; set; }
+        public virtual DbSet<QuestionAvailaleClassAndSubject> QuestionAvailaleClassAndSubjects { get; set; }
         public virtual DbSet<ClassSubject> ClassSubject { get; set; }
         public virtual DbSet<Question> Question { get; set; }
     }

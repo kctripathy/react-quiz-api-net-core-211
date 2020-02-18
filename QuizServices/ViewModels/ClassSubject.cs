@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace QuizServices.ViewModels
 {
-    public class ClassSubject
+    public class ClassSubject: 
     {
+        public int Id { get; set }
         public int ClassSubjectID { get; set; }
 
         public int ClassID { get; set; }
@@ -18,7 +19,7 @@ namespace QuizServices.ViewModels
         public string SubjectDesc { get; set; }
     }
 
-    public class AvailaleClassAndSubjects
+    public class QuestionAvailaleClassAndSubject
     {
         [Key]
         public int ClassSubjectID { get; set; }
